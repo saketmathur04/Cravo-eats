@@ -1,0 +1,521 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================================
+   TOMATO EATS — BILLION-DOLLAR DESIGN SYSTEM
+   
+   LIGHT  → Clean · Apple-like · Minimal · NO glow/blur
+   DARK   → Cosmic Neon · Cyberpunk · Glassmorphism · Immersive · WOW
+   
+   These are TWO COMPLETELY DIFFERENT PRODUCTS. Zero shared effects.
+   ========================================================================= */
+
+@layer base {
+
+  /* ═══════════════════════════════════════════════════════════
+     LIGHT MODE — Default (Apple / Linear / Notion inspired)
+     NO glow. NO blur. NO gradients. Pure clean surfaces.
+     ═══════════════════════════════════════════════════════════ */
+  :root {
+    --background: 214 32% 98%;          /* #F6F8FB */
+    --foreground: 222 47% 11%;          /* #0F172A */
+
+    --surface: 0 0% 100%;               /* #FFFFFF */
+    --surface-elevated: 0 0% 100%;
+    --surface-overlay: 0 0% 100% / 0.8;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 24 95% 53%;              /* #FF7A18 warm neon orange */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 24 95% 46%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 215 16% 34%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 34%;
+
+    --accent: 217 91% 60%;              /* #3B82F6 */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 70% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 0 0% 0% / 0.06;
+    --input: 0 0% 0% / 0.1;
+    --ring: 24 95% 53% / 0.3;
+    --radius: 1rem;
+
+    --gradient-brand: linear-gradient(135deg, #FF7A18, #F39C12);
+    --gradient-hero: none;
+
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-sm: 0 2px 8px -2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+    --shadow-lg: 0 12px 32px -4px rgba(0,0,0,0.07);
+
+    --transition-base: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     DARK MODE — COSMIC NEON CYBERPUNK
+     Deep space. Neon edges. Glass surfaces. Living gradients.
+     ═══════════════════════════════════════════════════════════ */
+  .dark {
+    --background: 228 80% 4%;           /* #070A13  deep space black */
+    --foreground: 0 0% 93%;             /* near white */
+
+    --surface: 230 40% 7%;              /* ultra-dark glass */
+    --surface-elevated: 230 35% 10%;
+    --surface-overlay: 230 50% 5% / 0.92;
+
+    --card: 230 40% 7%;
+    --card-foreground: 0 0% 93%;
+    --popover: 230 35% 9%;
+    --popover-foreground: 0 0% 93%;
+
+    --primary: 24 100% 54%;             /* #FF7A18 neon orange */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 24 100% 48%;
+
+    --secondary: 230 30% 12%;
+    --secondary-foreground: 230 15% 60%;
+
+    --muted: 230 30% 10%;
+    --muted-foreground: 230 15% 50%;
+
+    --accent: 271 91% 65%;              /* #A855F7 cyber purple */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 70% 50%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 55%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 230 30% 16%;
+    --input: 230 30% 12%;
+    --ring: 24 100% 54% / 0.5;
+    --radius: 1rem;
+
+    /* ── Neon Glow System ── */
+    --glow-orange: rgba(255, 122, 24, 0.45);
+    --glow-purple: rgba(168, 85,  247, 0.45);
+    --glow-pink:   rgba(236, 72,  153, 0.35);
+
+    --glow-sm:  0 0 15px  var(--glow-pink);
+    --glow-md:  0 0 35px  var(--glow-purple);
+    --glow-lg:  0 0 55px  var(--glow-orange);
+
+    /* ── Gradients — Cyberpunk ── */
+    --gradient-brand: linear-gradient(135deg, #FF7A18 0%, #EC4899 50%, #A855F7 100%);
+    --gradient-hero:
+      radial-gradient(ellipse 80% 50% at 50% -5%,  rgba(236,72,153,0.18),  transparent 65%),
+      radial-gradient(ellipse 50% 50% at 90% 50%,  rgba(168,85,247,0.14),  transparent 55%),
+      radial-gradient(ellipse 40% 40% at 10% 80%,  rgba(255,122,24,0.10),  transparent 50%);
+
+    /* ── Shadows — deep abyss ── */
+    --shadow-sm: 0 2px 12px  rgba(0,0,0,0.40);
+    --shadow-md: 0 8px 32px  rgba(0,0,0,0.55);
+    --shadow-lg: 0 20px 60px rgba(0,0,0,0.70);
+
+    --transition-base: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { @apply border-border; }
+
+  body {
+    @apply text-foreground min-h-screen antialiased overflow-x-hidden;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: hsl(var(--background));
+    transition: background-color 500ms ease, color 500ms ease;
+  }
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  COSMIC DARK MODE — LIVING BREATHING BACKGROUND                 ║
+   ║  Applied via .dark on <html>, targeting body                    ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+
+.dark body,
+.dark {
+  background:
+    radial-gradient(circle 800px at 20% 30%, rgba(236, 72, 153, 0.07), transparent),
+    radial-gradient(circle 600px at 80% 20%, rgba(168, 85, 247, 0.08), transparent),
+    radial-gradient(circle 700px at 50% 90%, rgba(255, 122, 24, 0.05), transparent),
+    radial-gradient(ellipse 120% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.4)),
+    #070A13;
+  background-attachment: fixed;
+}
+
+@keyframes cosmicDrift {
+  0%   { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
+  50%  { background-position: 3% 3%, -2% 5%, 5% -3%, 0 0, 50px 50px, 0 0; }
+  100% { background-position: -2% 5%, 4% -2%, -3% 5%, 0 0, 100px 100px, 0 0; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────
+   COMPONENTS — 100% ISOLATED PER THEME
+   ───────────────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* ── Typography ───────────────────────────────────────── */
+  .text-hero {
+    @apply font-bold tracking-tight;
+    font-size: clamp(48px, 8vw, 72px);
+    line-height: 1.05;
+  }
+  .text-section {
+    @apply font-bold tracking-tight;
+    font-size: clamp(32px, 5vw, 40px);
+    line-height: 1.15;
+  }
+  .text-card-title {
+    @apply font-semibold;
+    font-size: clamp(18px, 3vw, 20px);
+  }
+  .text-secondary {
+    @apply text-muted-foreground text-sm;
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     PREMIUM CARD
+     Light: flat white, soft shadow
+     Dark:  FULL GLASSMORPHISM — the signature look
+     ══════════════════════════════════════════════════════════ */
+
+  /* LIGHT — clean, zero glass */
+  .premium-card {
+    border-radius: 1rem;
+    background: #FFFFFF;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    transition: transform 280ms cubic-bezier(0.16,1,0.3,1),
+                box-shadow 280ms ease;
+  }
+  .premium-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+
+  /* DARK — glassmorphism + neon edge glow */
+  .dark .premium-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.50),
+      0 0 0 1px rgba(168,85,247,0.05),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+    transition: transform 300ms cubic-bezier(0.16,1,0.3,1),
+                box-shadow 300ms ease,
+                border-color 300ms ease,
+                background 300ms ease;
+  }
+  .dark .premium-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(168, 85, 247, 0.25);
+    box-shadow:
+      0 24px 64px rgba(0,0,0,0.65),
+      0 0 40px rgba(168,85,247,0.08),
+      0 0 20px rgba(236,72,153,0.06),
+      inset 0 1px 0 rgba(255,255,255,0.12);
+  }
+
+  
+  /* ══════════════════════════════════════════════════════════
+     GLASS UTILITY — reusable panels (search dropdown, etc.)
+     ══════════════════════════════════════════════════════════ */
+  .glass {
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .light .glass {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     SHIMMER — loading skeleton animation
+     ══════════════════════════════════════════════════════════ */
+  .shimmer {
+    background: linear-gradient(90deg, 
+      rgba(255,255,255,0.03) 25%, 
+      rgba(255,255,255,0.08) 50%, 
+      rgba(255,255,255,0.03) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmerSlide 1.5s ease-in-out infinite;
+  }
+  .light .shimmer {
+    background: linear-gradient(90deg,
+      rgba(0,0,0,0.04) 25%,
+      rgba(0,0,0,0.08) 50%,
+      rgba(0,0,0,0.04) 75%
+    );
+    background-size: 200% 100%;
+  }
+  @keyframes shimmerSlide {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     PRIMARY BUTTON
+     ══════════════════════════════════════════════════════════ */
+
+  /* LIGHT: solid clean orange */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    padding: 0 1.25rem;
+    border-radius: 0.75rem;
+    background: hsl(var(--primary));
+    color: white;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: background 200ms ease, transform 150ms ease, box-shadow 200ms ease;
+  }
+  .btn-primary:hover { background: hsl(var(--primary-hover)); }
+  .btn-primary:active { transform: scale(0.97); }
+
+  /* DARK: gradient + neon glow */
+  .dark .btn-primary {
+    background: linear-gradient(135deg, #FF7A18 0%, #EC4899 100%);
+    box-shadow:
+      0 4px 20px rgba(255,122,24,0.30),
+      0 0 15px rgba(236,72,153,0.15);
+  }
+  .dark .btn-primary:hover {
+    box-shadow:
+      0 8px 40px rgba(255,122,24,0.45),
+      0 0 30px rgba(236,72,153,0.25);
+    transform: translateY(-2px);
+  }
+  .dark .btn-primary:active {
+    transform: scale(0.97) translateY(0);
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     INPUT
+     ══════════════════════════════════════════════════════════ */
+  .input-standard {
+    @apply h-12 w-full px-4 rounded-xl border border-border outline-none transition-all;
+    background: hsl(var(--surface));
+  }
+  .input-standard:focus {
+    @apply ring-2;
+    ring-color: hsl(var(--primary) / 0.3);
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     NAVBAR — Elite Floating Glass
+     Inline styles handle scroll-responsive depth.
+     These classes are kept as fallbacks + extras.
+     ══════════════════════════════════════════════════════════ */
+
+  /* LIGHT: clean frosted white */
+  .nav-blur {
+    background: rgba(246, 248, 251, 0.88);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .nav-blur.nav-scrolled {
+    background: rgba(246, 248, 251, 0.97);
+    box-shadow: 0 1px 12px rgba(0,0,0,0.05);
+  }
+
+  /* DARK: cosmic glass with neon shimmer */
+  .dark .nav-blur {
+    background: rgba(7, 10, 19, 0.55);
+    backdrop-filter: blur(24px) saturate(1.5);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.08);
+    box-shadow: none;
+  }
+  .dark .nav-blur.nav-scrolled {
+    background: rgba(7, 10, 19, 0.90);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.18);
+    box-shadow:
+      0 4px 32px rgba(0,0,0,0.55),
+      0 1px 0 rgba(236,72,153,0.06);
+  }
+
+  /* ── Nav link active indicator glow (dark mode) ── */
+  .dark .nav-active-glow {
+    text-shadow: 0 0 12px rgba(168,85,247,0.3);
+  }
+
+
+  /* ══════════════════════════════════════════════════════════
+     SHADOW-GLOW — utility for hover states in dark
+     ══════════════════════════════════════════════════════════ */
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(168,85,247,0.2), 0 0 40px rgba(236,72,153,0.1);
+  }
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  CURSOR GLOW — follows mouse (RAF-driven in components)        ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+.cursor-glow {
+  position: relative;
+  overflow: hidden;
+}
+.cursor-glow::before {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  left: var(--mouse-x, 50%);
+  top:  var(--mouse-y, 50%);
+  z-index: 0;
+  transition: left 100ms linear, top 100ms linear;
+}
+
+/* Light: near-invisible */
+.cursor-glow::before {
+  background: radial-gradient(circle,
+    rgba(255,122,24,0.015) 0%,
+    transparent 60%
+  );
+}
+
+/* Dark: VIVID multi-color neon glow */
+.dark .cursor-glow::before {
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(circle,
+    rgba(236,72,153,0.12) 0%,
+    rgba(168,85,247,0.08) 25%,
+    rgba(255,122,24,0.04) 45%,
+    transparent 65%
+  );
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  DARK HERO BACKGROUND — Breathing Neon Nebula                  ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+.dark-hero-bg { display: none; }
+
+.dark .dark-hero-bg {
+  display: block;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    /* Hot pink nebula top-center */
+    radial-gradient(ellipse 80% 45% at 50% -5%,  rgba(236,72,153,0.22),  transparent 65%),
+    /* Purple nebula right */
+    radial-gradient(ellipse 50% 50% at 88% 50%,  rgba(168,85,247,0.18),  transparent 55%),
+    /* Orange warmth bottom-left */
+    radial-gradient(ellipse 45% 35% at 10% 85%,  rgba(255,122,24,0.14),  transparent 50%);
+  animation: heroPulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes heroPulse {
+  0%   { opacity: 0.7; transform: scale(1); }
+  50%  { opacity: 0.9; transform: scale(1.02); }
+  100% { opacity: 1;   transform: scale(1.04); }
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  FLOATING FOOD ELEMENTS — dark mode only, vivid               ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+.floating-food { display: none; opacity: 0; }
+.dark .floating-food {
+  display: block;
+  opacity: 1;
+  text-shadow: 0 0 12px rgba(255,255,255,0.3);
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  DARK MODE TAG CHIPS                                           ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+.dark .tag-chip {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(168,85,247,0.15);
+  color: rgba(255,255,255,0.75);
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  NEON BORDER GRADIENT — for special cards                      ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+.neon-border {
+  position: relative;
+  overflow: hidden;
+}
+.neon-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(168,85,247,0.4),
+    rgba(236,72,153,0.3),
+    rgba(255,122,24,0.2),
+    transparent 60%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  SCROLLBAR — themed                                            ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+.dark ::-webkit-scrollbar { width: 8px; }
+.dark ::-webkit-scrollbar-track { background: rgba(7,10,19,0.5); }
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(168,85,247,0.3), rgba(236,72,153,0.2));
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(168,85,247,0.5), rgba(236,72,153,0.4));
+}

@@ -1,0 +1,13 @@
+{
+  "name": "cravo-food-delivery",
+  "version": "1.0.0",
+  "description": "Full-stack food delivery platform with microservices architecture",
+  "private": true,
+  "scripts": {
+    "dev": "npx concurrently --kill-others --names \"FRONTEND,AUTH,REALTIME,RESTAURANT,RIDER,UTILS,ADMIN\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold,bgYellow.bold,bgCyan.bold,bgRed.bold,bgWhite.bold\" \"cd frontend && npm run dev\" \"cd services/auth && npm run dev\" \"cd services/realtime && npm run dev\" \"cd services/restaurant && npm run dev\" \"cd services/rider && npm run dev\" \"cd services/utils && npm run dev\" \"cd services/admin && npm run dev\"",
+    "install": "cd frontend && npm install && cd ../services/auth && npm install && cd ../restaurant && npm install && cd ../rider && npm install && cd ../realtime && npm install && cd ../utils && npm install && cd ../admin && npm install",
+    "build": "cd frontend && npm run build && cd ../services/auth && npm run build && cd ../restaurant && npm run build && cd ../rider && npm run build && cd ../realtime && npm run build && cd ../utils && npm run build && cd ../admin && npm run build"
+  },
+  "author": "Saket Mathur",
+  "license": "ISC"
+}
