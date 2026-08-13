@@ -308,7 +308,7 @@ const RiderDashboard = () => {
     };
 
     if (!navigator.geolocation) {
-      toast.warn("Geolocation not supported. Registering with default location.");
+      toast.error("Geolocation not supported. Registering with default location.");
       await submitWithLocation(28.6139, 77.2090, "Connaught Place, New Delhi");
       return;
     }
@@ -325,8 +325,8 @@ const RiderDashboard = () => {
         } catch {}
         await submitWithLocation(pos.coords.latitude, pos.coords.longitude, addressStr);
       },
-      async (error) => {
-        toast.warn("Location permission denied. Registering with default location.");
+      async () => {
+        toast.error("Location permission denied. Registering with default location.");
         await submitWithLocation(28.6139, 77.2090, "Connaught Place, New Delhi (Fallback)");
       }
     );

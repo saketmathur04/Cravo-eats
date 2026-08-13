@@ -60,7 +60,6 @@ const Checkout = () => {
   const platformFee = 7;
   const grandTotal = subTotal + deliveryFee + platformFee;
 
-  const [lastOrderId, setLastOrderId] = useState<string | null>(null);
 
   const createOrder = async (paymentMethod: "razorpay" | "stripe") => {
     if (!selectedAddressId) return null;
@@ -71,7 +70,7 @@ const Checkout = () => {
         { paymentMethod, addressId: selectedAddressId },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
-      setLastOrderId(data.orderId);
+
       return data;
     } catch (error) {
       toast.error("Failed to create Order");
