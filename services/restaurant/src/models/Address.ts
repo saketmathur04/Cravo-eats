@@ -5,6 +5,9 @@ export interface IAddress extends Document {
   mobile: number;
 
   formattedAddress: string;
+  flat?: string;
+  landmark?: string;
+  label?: "home" | "work" | "other";
 
   location: {
     type: "Point";
@@ -28,6 +31,17 @@ const schema = new Schema<IAddress>(
     formattedAddress: {
       type: String,
       required: true,
+    },
+    flat: {
+      type: String,
+    },
+    landmark: {
+      type: String,
+    },
+    label: {
+      type: String,
+      enum: ["home", "work", "other"],
+      default: "home",
     },
 
     location: {

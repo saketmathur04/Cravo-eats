@@ -26,6 +26,9 @@ L.Icon.Default.mergeOptions({
 interface Address {
   _id: string;
   formattedAddress: string;
+  flat?: string;
+  landmark?: string;
+  label?: "home" | "work" | "other";
   mobile: number;
 }
 
@@ -84,6 +87,9 @@ const AddAddressPage = () => {
   // 📋 Form state
   const [mobile, setMobile] = useState("");
   const [formattedAddress, setFormattedAddress] = useState("");
+  const [flat, setFlat] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [label, setLabel] = useState<"home" | "work" | "other">("home");
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
 
@@ -143,6 +149,9 @@ const AddAddressPage = () => {
         `${restaurantService}/api/address/new`,
         {
           formattedAddress,
+          flat,
+          landmark,
+          label,
           mobile,
           latitude,
           longitude,
@@ -156,6 +165,9 @@ const AddAddressPage = () => {
       toast.success("Address added");
       setMobile("");
       setFormattedAddress("");
+      setFlat("");
+      setLandmark("");
+      setLabel("home");
       setLatitude(null);
       setLongitude(null);
       fetchAddresses();
@@ -227,26 +239,68 @@ const AddAddressPage = () => {
         </motion.div>
       )}
 
-      {/* 📱 Mobile + Save */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <input
-          type="number"
-          placeholder="Mobile number"
-          value={mobile}
-          onChange={(e) => setMobile(e.target.value)}
-          className="flex-1 rounded-xl border border-border bg-background dark:bg-surface/50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground placeholder:text-muted-foreground transition-all"
-        />
-        <motion.button
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.98 }}
-          disabled={adding}
-          onClick={addAddress}
-          className="btn-premium flex items-center justify-center gap-2 px-6 py-3 text-sm disabled:opacity-60"
+      {/* 📝 Address Details Form */}
+      {formattedAddress && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-4"
         >
-          {adding ? <BiLoader className="animate-spin" /> : <BiPlus />}
-          Save Address
-        </motion.button>
-      </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input
+              type="text"
+              placeholder="Flat / House / Floor / Building"
+              value={flat}
+              onChange={(e) => setFlat(e.target.value)}
+              className="w-full rounded-xl border border-border bg-background dark:bg-surface/50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground transition-all"
+            />
+            <input
+              type="text"
+              placeholder="Nearby Landmark (optional)"
+              value={landmark}
+              onChange={(e) => setLandmark(e.target.value)}
+              className="w-full rounded-xl border border-border bg-background dark:bg-surface/50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground transition-all"
+            />
+          </div>
+
+          <div className="flex gap-3">
+            {(["home", "work", "other"] as const).map((l) => (
+              <button
+                key={l}
+                onClick={() => setLabel(l)}
+                className={`flex-1 rounded-xl border px-4 py-3 text-sm font-medium capitalize transition-all ${
+                  label === l
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-border bg-background dark:bg-surface/50 text-muted-foreground hover:bg-secondary/50"
+                }`}
+              >
+                {l === "home" ? "🏠 " : l === "work" ? "🏢 " : "📍 "}
+                {l}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <input
+              type="number"
+              placeholder="10-digit mobile number"
+              value={mobile}
+              onChange={(e) => setMobile(e.target.value)}
+              className="flex-1 rounded-xl border border-border bg-background dark:bg-surface/50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 text-foreground transition-all"
+            />
+            <motion.button
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              disabled={adding}
+              onClick={addAddress}
+              className="btn-premium flex items-center justify-center gap-2 px-8 py-3 text-sm disabled:opacity-60"
+            >
+              {adding ? <BiLoader className="animate-spin" /> : <BiPlus />}
+              Save Address
+            </motion.button>
+          </div>
+        </motion.div>
+      )}
 
       {/* 📋 Saved Addresses */}
       <div className="space-y-3">
@@ -274,11 +328,20 @@ const AddAddressPage = () => {
               animate={{ opacity: 1, y: 0 }}
               className="flex items-center justify-between rounded-2xl bg-surface border border-border p-4 shadow-sm hover:-translate-y-0.5 transition-all duration-200"
             >
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  {addr.label && (
+                    <span className="inline-flex items-center rounded-md bg-secondary px-2 py-0.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      {addr.label === "home" ? "🏠" : addr.label === "work" ? "🏢" : "📍"} {addr.label}
+                    </span>
+                  )}
+                  {addr.flat && <span className="text-sm font-bold text-foreground">{addr.flat}</span>}
+                </div>
+                <p className="text-sm font-medium text-foreground/80 line-clamp-2 leading-relaxed">
                   {addr.formattedAddress}
+                  {addr.landmark ? `, Near ${addr.landmark}` : ""}
                 </p>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-xs font-medium text-muted-foreground mt-2">
                   📞 {addr.mobile}
                 </p>
               </div>

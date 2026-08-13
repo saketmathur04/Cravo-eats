@@ -13,6 +13,9 @@ import { motion } from "framer-motion";
 interface Address {
   _id: string;
   formattedAddress: string;
+  flat?: string;
+  landmark?: string;
+  label?: "home" | "work" | "other";
   mobile: number;
 }
 
@@ -168,11 +171,14 @@ const Checkout = () => {
                  <h2 className="text-card-title text-foreground">Delivery Details</h2>
               </div>
               
-              <div className="mb-8 rounded-xl bg-secondary p-5 border border-border flex items-center justify-between">
+              <div className="mb-8 rounded-xl bg-secondary p-5 border border-border flex flex-col gap-2">
+                 <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                   <span className="text-lg">🍽️</span> Ordering from
+                 </div>
                  <div>
                    <h3 className="font-semibold text-foreground text-base tracking-tight">{restaurant.name}</h3>
-                   <p className="flex items-center text-sm text-muted-foreground mt-1">
-                      <MapPin className="h-3.5 w-3.5 mr-1.5" />
+                   <p className="flex items-start text-sm text-muted-foreground mt-1.5 leading-relaxed">
+                      <MapPin className="h-4 w-4 mr-2 mt-0.5 shrink-0" />
                       {restaurant.autoLocation.formattedAddress}
                    </p>
                  </div>
@@ -214,8 +220,19 @@ const Checkout = () => {
                         {selectedAddressId === add._id && <div className="h-1.5 w-1.5 rounded-full bg-white shadow-sm" />}
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-foreground leading-relaxed">{add.formattedAddress}</p>
-                        <p className="text-xs text-muted-foreground mt-1.5 font-medium tracking-wide">📞 {add.mobile}</p>
+                        <div className="flex items-center gap-2 mb-1">
+                          {add.label && (
+                            <span className="inline-flex items-center rounded-md bg-secondary px-2 py-0.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                              {add.label === "home" ? "🏠" : add.label === "work" ? "🏢" : "📍"} {add.label}
+                            </span>
+                          )}
+                          {add.flat && <span className="text-sm font-bold text-foreground">{add.flat}</span>}
+                        </div>
+                        <p className="text-sm font-medium text-foreground/80 leading-relaxed line-clamp-2">
+                          {add.formattedAddress}
+                          {add.landmark ? `, Near ${add.landmark}` : ""}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-2 font-medium tracking-wide">📞 {add.mobile}</p>
                       </div>
                     </label>
                   ))}
