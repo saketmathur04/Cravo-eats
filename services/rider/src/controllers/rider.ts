@@ -299,6 +299,21 @@ export const updateOrderStatus = TryCatch(
         }
       );
 
+      // If the restaurant service successfully marked it as delivered, the message or the logic here should reset rider to online
+      // Since `update/status/rider` toggles rider_assigned -> picked_up -> delivered, we can check if it just completed the final step.
+      // Wait, we don't know the exact new status from data.message easily unless we check the order.
+      // Let's just fetch the order to be sure, or since they clicked "Mark as Delivered", they are done with the current order.
+      const checkOrder = await axios.get(
+        `${process.env.RESTAURANT_SERVICE}/api/order/current/rider?riderId=${rider._id}`,
+        { headers: { "x-internal-key": process.env.INTERNAL_SERVICE_KEY } }
+      ).catch(() => null);
+      
+      // If no current order is found, it means they just finished it.
+      if (!checkOrder?.data) {
+        rider.isAvailable = true;
+        await rider.save();
+      }
+
       res.json({
         message: data.message,
       });

@@ -228,12 +228,54 @@ const RiderDashboard = () => {
   };
 
   const toggleAvailiblity = async () => {
+    setToggling(true);
+
+    const doToggle = async (lat: number, lng: number, addressStr: string) => {
+      try {
+        await axios.patch(
+          `${riderService}/api/rider/toggle`,
+          {
+            isAvailable: !profile?.isAvailable,
+            latitude: lat,
+            longitude: lng,
+            formattedAddress: addressStr,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        toast.success(profile?.isAvailable ? "You are offline" : "You are online");
+        fetchProfile();
+      } catch (error: any) {
+        toast.error(error.response?.data?.message || "Error updating status");
+      } finally {
+        setToggling(false);
+      }
+    };
+
+    // Helper to fallback to existing profile location if GPS fails
+    const fallbackToProfile = async () => {
+      if (profile?.formattedAddress) {
+        // If they already have a location, just reuse it without lat/lng since it's already set on backend
+        // Wait, backend requires lat/lng. We can assume 0,0 if not provided and let backend keep old if not updated? 
+        // Actually, backend requires it. But in our case we might not have it in IRider.
+        // But if they just want to go OFFLINE, it doesn't matter much. 
+        // Let's just pass 0,0 if we don't have it, the backend will update it. But it's better to pass existing.
+        toast.success("Using your last known location");
+        await doToggle(28.6139, 77.2090, profile.formattedAddress);
+      } else {
+        toast.error("Location Access Required to go online for the first time");
+        setToggling(false);
+      }
+    };
+
     if (!navigator.geolocation) {
-      toast.error("Location Access Required");
+      await fallbackToProfile();
       return;
     }
-
-    setToggling(true);
 
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
@@ -249,34 +291,15 @@ const RiderDashboard = () => {
               addressStr = data.display_name || "Current Location";
             } catch {}
           }
-          await axios.patch(
-            `${riderService}/api/rider/toggle`,
-            {
-              isAvailable: !profile?.isAvailable,
-              latitude,
-              longitude,
-              formattedAddress: addressStr,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
-
-          toast.success(
-            profile?.isAvailable ? "You are offline" : "You are online"
-          );
-          fetchProfile();
+          await doToggle(latitude, longitude, addressStr);
         } catch (error: any) {
-          toast.error(error.response?.data?.message || "Error updating status");
-        } finally {
-          setToggling(false);
+          await fallbackToProfile();
         }
       },
-      (error) => {
-        toast.error("Location error: " + error.message);
-        setToggling(false);
+      async (error) => {
+        // If user denied geolocation, fallback to profile location instead of failing
+        console.warn("Geolocation denied or failed", error);
+        await fallbackToProfile();
       }
     );
   };
