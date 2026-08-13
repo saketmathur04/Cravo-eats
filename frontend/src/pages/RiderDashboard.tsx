@@ -49,16 +49,25 @@ const RiderDashboard = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const unlockAudio = () => {
-    if (!audioRef.current) return;
+    console.log("Unlock audio clicked. audioRef:", audioRef.current);
+    
+    // Fallback if the DOM element isn't found for some reason
+    if (!audioRef.current) {
+      console.log("Fallback to new Audio()");
+      audioRef.current = new Audio(audio);
+      audioRef.current.preload = "auto";
+    }
     
     audioRef.current.currentTime = 0;
     audioRef.current.volume = 1;
     
+    console.log("Calling play()...");
     const playPromise = audioRef.current.play();
     
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
+          console.log("Play succeeded!");
           setAudioUnlocked(true);
           toast.success("Sound Alerts Enabled");
         })
@@ -66,6 +75,10 @@ const RiderDashboard = () => {
           console.error("Audio unlock failed:", error);
           toast.error("Tap again to enable sound");
         });
+    } else {
+      console.log("playPromise was undefined, assuming success.");
+      setAudioUnlocked(true);
+      toast.success("Sound Alerts Enabled");
     }
   };
 
