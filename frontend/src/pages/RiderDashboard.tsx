@@ -48,21 +48,24 @@ const RiderDashboard = () => {
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  useEffect(() => {
-    audioRef.current = new Audio(audio);
-    audioRef.current.preload = "auto";
-  }, []);
-
-  const unlockAudio = async () => {
-    try {
-      if (!audioRef.current) return;
-      await audioRef.current.play();
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      setAudioUnlocked(true);
-      toast.success("Sound Enabled");
-    } catch (error) {
-      toast.error("Tap again to enable sound");
+  const unlockAudio = () => {
+    if (!audioRef.current) return;
+    
+    audioRef.current.currentTime = 0;
+    audioRef.current.volume = 1;
+    
+    const playPromise = audioRef.current.play();
+    
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setAudioUnlocked(true);
+          toast.success("Sound Alerts Enabled");
+        })
+        .catch((error) => {
+          console.error("Audio unlock failed:", error);
+          toast.error("Tap again to enable sound");
+        });
     }
   };
 
@@ -435,6 +438,9 @@ const RiderDashboard = () => {
   // ─── Main Dashboard ─────────────────────────────────
   return (
     <div className="min-h-screen pb-8">
+      {/* Hidden audio element for notifications */}
+      <audio ref={audioRef} src={audio} preload="auto" />
+
       <div className="mx-auto max-w-lg px-4 space-y-5 pt-6">
 
         {/* ── Profile Card ────────────────────────────── */}
