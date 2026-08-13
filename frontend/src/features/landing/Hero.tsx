@@ -2,7 +2,9 @@ import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
-import heroVideo from "../../assets/Video_1.mp4";
+// Video served from public/ folder — NOT bundled into JS
+// This lets the page load instantly while video streams in background
+const heroVideo = "/hero-video.mp4";
 
 interface HeroProps {
   localSearch: string;
