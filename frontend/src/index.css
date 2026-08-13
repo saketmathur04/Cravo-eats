@@ -519,3 +519,33 @@
 .dark ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, rgba(168,85,247,0.5), rgba(236,72,153,0.4));
 }
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  SMOOTH THEME TRANSITION — prevents jarring day/night flash     ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+:root {
+  transition: background-color 0.4s ease, color 0.3s ease;
+}
+*,
+*::before,
+*::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.3s ease;
+}
+/* Exclude elements where transition causes visual bugs */
+input, textarea, video, canvas, img, svg, .no-transition {
+  transition: none !important;
+}
+
+
+/* ╔═══════════════════════════════════════════════════════════════════╗
+   ║  FLOAT ANIMATION — GPU-accelerated for 60fps                    ║
+   ╚═══════════════════════════════════════════════════════════════════╝ */
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-16px) rotate(6deg); }
+}
+.animate-float-gentle {
+  animation: float-gentle 5s ease-in-out infinite;
+  will-change: transform;
+}

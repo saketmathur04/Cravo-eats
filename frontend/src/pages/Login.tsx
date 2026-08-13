@@ -12,14 +12,11 @@ import { ThemeToggle } from "../features/theme/ThemeToggle";
 import { useTheme } from "../context/ThemeProvider";
 import loginHero from "../assets/login-hero.png";
 
-/* ── Floating food items ── */
+/* ── Floating food items (reduced to 3 for performance) ── */
 const floatingItems = [
   { emoji: "🍔", top: "12%", left: "8%",  delay: 0,   size: "text-5xl" },
   { emoji: "🍕", top: "22%", left: "78%", delay: 0.5, size: "text-4xl" },
-  { emoji: "🍣", top: "55%", left: "12%", delay: 1,   size: "text-4xl" },
   { emoji: "🥗", top: "72%", left: "82%", delay: 1.5, size: "text-5xl" },
-  { emoji: "🍜", top: "42%", left: "88%", delay: 0.8, size: "text-3xl" },
-  { emoji: "🧁", top: "88%", left: "22%", delay: 1.2, size: "text-3xl" },
 ];
 
 type AuthTab = "create" | "login";
@@ -120,28 +117,15 @@ const Login = () => {
         )}
 
         {floatingItems.map((item, i) => (
-          <motion.div
+          <div
             key={i}
-            className={`hidden lg:block absolute ${item.size} select-none pointer-events-none ${
-              isDark
-                ? "opacity-90 [text-shadow:0_0_20px_rgba(168,85,247,0.4)]"
-                : "opacity-30"
+            className={`hidden lg:block absolute ${item.size} select-none pointer-events-none animate-float-gentle ${
+              isDark ? "opacity-80" : "opacity-30"
             }`}
-            style={{ top: item.top, left: item.left }}
-            animate={{
-              y: [0, -22, 0],
-              rotate: [0, 10, -10, 0],
-              scale: isDark ? [1, 1.08, 1] : [1, 1.03, 1],
-            }}
-            transition={{
-              duration: isDark ? 5 : 4,
-              repeat: Infinity,
-              delay: item.delay,
-              ease: "easeInOut",
-            }}
+            style={{ top: item.top, left: item.left, animationDelay: `${item.delay}s` }}
           >
             {item.emoji}
-          </motion.div>
+          </div>
         ))}
 
         {/* Hero text content */}
@@ -153,8 +137,8 @@ const Login = () => {
           >
             <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 ${
               isDark
-                ? "bg-white/5 backdrop-blur-xl border border-purple-500/20"
-                : "bg-white/10 backdrop-blur-sm border border-white/20"
+                ? "bg-white/10 border border-purple-500/20"
+                : "bg-white/15 border border-white/20"
             }`}>
               <span className="h-2 w-2 rounded-full animate-pulse bg-green-400 ring-4 ring-green-400/20" />
               <span className="text-white text-[11px] font-bold uppercase tracking-wider">
@@ -229,8 +213,8 @@ const Login = () => {
           {/* ═══ AUTH CARD ═══ */}
           <div className={`rounded-3xl p-6 sm:p-8 lg:p-10 ${
             isDark
-              ? "neon-border bg-[#070A13]/80 backdrop-blur-3xl border border-white/[0.08] shadow-2xl"
-              : "bg-white/90 lg:bg-white backdrop-blur-2xl border border-white/40 shadow-2xl"
+              ? "neon-border bg-[#070A13]/95 border border-white/[0.08] shadow-2xl"
+              : "bg-white/95 lg:bg-white border border-white/40 shadow-2xl"
           }`}>
 
             {/* Desktop logo */}
@@ -409,7 +393,7 @@ const Login = () => {
                   : "disabled:opacity-60 disabled:cursor-not-allowed"
               } ${
                 isDark
-                  ? "bg-white/[0.04] border border-white/10 text-foreground hover:bg-white/[0.08] hover:border-purple-500/30 hover:shadow-[0_0_25px_rgba(168,85,247,0.12)]"
+                  ? "bg-white/[0.04] border border-white/10 text-foreground hover:bg-white/[0.08] hover:border-purple-500/30"
                   : "bg-white border border-black/10 text-gray-700 hover:border-black/20 hover:shadow-md"
               }`}
             >
