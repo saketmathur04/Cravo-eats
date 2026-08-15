@@ -469,4 +469,4 @@ Built as a final year B.Tech CSE project. Open for reference and learning.
 
 ---
 
-**Built by [Saket Mathur](https://github.com/saketmathur)** · 2025
+**Built by [Saket Mathur](https://github.com/saketmathur)** · 2026
